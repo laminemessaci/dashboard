@@ -24,8 +24,8 @@ const BottomTabsNavigator = (props) => {
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={theme.colors.white}
-      inactiveColor={theme.colors.secondary}
-      barStyle={{ backgroundColor: theme.colors.primary }}
+      inactiveColor={theme.colors.darkGrey}
+      barStyle={{ backgroundColor: theme.colors.primaryDark }}
     >
       <Tab.Screen
         name="Home"

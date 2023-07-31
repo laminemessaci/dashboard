@@ -1,6 +1,4 @@
-/**
- * Enum of supported colors in FULLL theme
- */
+
 export enum COFFEEColors {
   DEFAULT = "#13132A",
   PRIMARY = "#876445",
@@ -22,9 +20,7 @@ export enum COFFEEColors {
   WHITE = "#FFFFFF",
 }
 
-/**
- * Enum of supported colors in IED theme
- */
+
 export enum NEWColors {
   DEFAULT = "#000000",
   PRIMARY = "#54BAB9",
