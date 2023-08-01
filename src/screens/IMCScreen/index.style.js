@@ -44,7 +44,7 @@ const styles = {
   }),
   submitButtonText: (theme, disabled) => ({
     textAlign: "center",
-    color: !disabled? theme.colors.default : theme.colors.darkGrey,
+    color: !disabled ? theme.colors.default : theme.colors.darkGrey,
     fontWeight: "bold",
     fontSize: 18,
   }),

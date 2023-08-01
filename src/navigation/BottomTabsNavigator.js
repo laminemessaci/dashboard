@@ -1,4 +1,4 @@
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons, Fontisto } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 import {
@@ -8,6 +8,7 @@ import {
   SettingScreen,
 } from "@screens";
 import { useTheme } from "../theme/ThemeProvider";
+import ConvertiseurDevice from "../components/CovertiseurDevise/index.js";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -38,12 +39,26 @@ const BottomTabsNavigator = (props) => {
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={NotificationScreen}
+        name="Profile"
+        component={ProfileScreen}
         options={{
-          tabBarLabel: "Notifications",
+          tabBarLabel: "IMC",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-notifications" color={color} size={22} />
+            <MaterialCommunityIcons
+              name="human-male-height"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Conversion"
+        component={ConvertiseurDevice}
+        options={{
+          tabBarLabel: "convert",
+          tabBarIcon: ({ color }) => (
+            <Fontisto name="euro" color={color} size={22} />
           ),
         }}
       />
@@ -54,16 +69,6 @@ const BottomTabsNavigator = (props) => {
           tabBarLabel: "Settings",
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-settings" color={color} size={22} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-person" color={color} size={26} />
           ),
         }}
       />

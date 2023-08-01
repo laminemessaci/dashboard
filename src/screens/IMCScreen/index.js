@@ -1,55 +1,71 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Pressable,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 import CalculIMC from "../../components/CalculIMC";
 import { useTheme } from "../../theme/ThemeProvider";
 
 import styles from "./index.style.js";
 
+
+
+/**
+ * Generates the function comment for the given function body.
+ *
+ * @param {function} setState - The state setter function.
+ * @param {Event} event - The event object.
+ * @return {undefined} This function does not return a value.
+ */
 const IMCScreen = () => {
-  const [name, setName] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
+  const [name, setName] = useState('');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
   const [bmi, setBmi] = useState(false);
-  const [submitted, setSubmited] = useState(false);
-  const allForm = name != "" && height != "" && weight != "";
-  console.log("all form: ", allForm);
+  const [submitted, setSubmitted] = useState(false);
+  const allForm = name !== '' && height !== '' && weight !== '';
+
+  const theme = useTheme()
 
   useEffect(() => {
-    if (name && height && weight) {
-      setBmi(true);
-    } else {
-      setBmi(false);
-    }
-  }, [height, weight, name, bmi, submitted]);
+    setBmi(name !== '' && height !== '' && weight !== '');
+  }, [name, height, weight]);
 
+  /**
+   * A function that handles a change event and updates the state.
+   *
+   * @param {function} setState - The state setter function.
+   * @param {Event} event - The event object.
+   * @return {undefined} This function does not return a value.
+   */
   const handleChange = (setState) => (event) => {
     setState(event);
   };
 
+  /**
+   * Handles the form submission.
+   *
+   * @return {undefined} No return value.
+   */
   const handleSubmit = () => {
-    if (name != "" && height != "" && weight != "") {
+    if (name !== '' && height !== '' && weight !== '') {
       setBmi(true);
-      setSubmited(true);
+      setSubmitted(true);
     } else {
-      alert("Veuillez remplir tous les champs");
+      alert('Veuillez remplir tous les champs');
     }
   };
+
+  /**
+   * Resets the state values for BMI calculation.
+   *
+   * @return {undefined} No return value.
+   */
   const handleReset = () => {
     setBmi(false);
-    setSubmited(false);
-    setName("");
-    setHeight("");
-    setWeight("");
+    setSubmitted(false);
+    setName('');
+    setHeight('');
+    setWeight('');
   };
 
-  const theme = useTheme();
   return (
     <>
       <View>
@@ -96,7 +112,10 @@ const IMCScreen = () => {
             <Text style={styles.submitButtonText(theme)}>Calculer</Text>
           </Pressable>
         ) : (
-          <Pressable style={styles.submitButton(theme, bmi)} onPress={handleReset}>
+          <Pressable
+            style={styles.submitButton(theme, bmi)}
+            onPress={handleReset}
+          >
             <Text style={styles.submitButtonText(theme)}>Réinitialiser</Text>
           </Pressable>
         )}
@@ -109,3 +128,5 @@ const IMCScreen = () => {
 };
 
 export default IMCScreen;
+
+

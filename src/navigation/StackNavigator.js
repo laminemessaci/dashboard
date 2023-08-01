@@ -1,10 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeScreen } from "@screens";
 import BottomTabsNavigator from "./BottomTabsNavigator.js";
 
 const Stack = createStackNavigator();
 
+/**
+ * Initializes and returns the AppStackNavigator component.
+ *
+ * @return {ReactNode} The rendered AppStackNavigator component.
+ */
 export default function AppStackNavigator() {
   return (
     <Stack.Navigator
@@ -17,7 +21,7 @@ export default function AppStackNavigator() {
         headerShown={true}
         options={{
           headerLeft: ({ color }) => (
-            <Ionicons name="mmenu" color="black" size={26} />
+            <Ionicons name="menu" color="black" size={26} />
           ),
         }}
       />
