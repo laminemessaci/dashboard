@@ -18,6 +18,7 @@ const styles = {
     fontSize: 30,
     fontWeight: "bold",
     backgroundColor: theme.colors.primaryDark,
+    color: theme.colors.white,
   }),
   label: (theme) => ({
     marginLeft: 15,

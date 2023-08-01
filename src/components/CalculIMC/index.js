@@ -22,29 +22,31 @@ const CalculIMC = ({ name, height, weight }) => {
   const IMC = weight / (height / 100) ** 2;
 
   // Define the IMC category based on the calculated IMC
-  let category, imageSource;
+  let category, imageSource, message;
   if (IMC < 18.5) {
     category = "Maigre";
     imageSource = maigre;
+    message="Vous ête maigre"
   } else if (IMC < 25) {
     category = "Normal";
     imageSource = normal;
+    message = "Vous avez une corpulence normale"
   } else if (IMC < 30) {
     category = "Surpoids";
     imageSource = surpoids;
+    message ="Vous ête en surpoids!"
   } else {
     category = "Obese";
     imageSource = obese;
+    message= 'vous etes obèse!'
   }
 
   // Return the IMC and category
   return (
     <View style={styles.container(theme)}>
-      <Text>Nom: {name}</Text>
-      <Text>Poids : {weight}</Text>
-      <Text>Taille: {height}</Text>
-      <Text>IMC: {IMC.toFixed(2)}</Text>
-      <Text>Category: {category}</Text>
+      <Text>Bonjour {name}</Text>
+      <Text>Votre IMC est : {IMC.toFixed(2)}</Text>
+      <Text>{message}</Text>
       <Image source={imageSource} style={styles.image(theme)} />
     </View>
   );
