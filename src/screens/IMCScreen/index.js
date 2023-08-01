@@ -69,7 +69,7 @@ const IMCScreen = () => {
   return (
     <>
       <View>
-        <Text style={styles.title(theme)}>BMI Calculator</Text>
+        <Text style={styles.title(theme)}>IMC Calculator</Text>
       </View>
       <View style={styles.container(theme)}>
         <Text style={styles.label(theme)}>Enter Your Name </Text>
