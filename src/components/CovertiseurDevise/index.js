@@ -3,7 +3,7 @@ import React from "react";
 import { useTheme } from "../../theme/ThemeProvider";
 import styles from "./index.style.js";
 
-const ConvertiseurDevice = () => {
+const ConvertiseurDevise = () => {
   const theme = useTheme;
   return (
     <View style={styles.container(theme)}>
@@ -12,4 +12,4 @@ const ConvertiseurDevice = () => {
   );
 };
 
-export default ConvertiseurDevice;
+export default ConvertiseurDevise;

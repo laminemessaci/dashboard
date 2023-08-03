@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import CalculIMC from "../../components/CalculIMC";
 import { useTheme } from "../../theme/ThemeProvider";
 
 import styles from "./index.style.js";
-
-
 
 /**
  * Generates the function comment for the given function body.
@@ -15,17 +13,17 @@ import styles from "./index.style.js";
  * @return {undefined} This function does not return a value.
  */
 const IMCScreen = () => {
-  const [name, setName] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
   const [bmi, setBmi] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const allForm = name !== '' && height !== '' && weight !== '';
+  const allForm = name !== "" && height !== "" && weight !== "";
 
-  const theme = useTheme()
+  const theme = useTheme();
 
   useEffect(() => {
-    setBmi(name !== '' && height !== '' && weight !== '');
+    setBmi(name !== "" && height !== "" && weight !== "");
   }, [name, height, weight]);
 
   /**
@@ -45,11 +43,11 @@ const IMCScreen = () => {
    * @return {undefined} No return value.
    */
   const handleSubmit = () => {
-    if (name !== '' && height !== '' && weight !== '') {
+    if (name !== "" && height !== "" && weight !== "") {
       setBmi(true);
       setSubmitted(true);
     } else {
-      alert('Veuillez remplir tous les champs');
+      alert("Veuillez remplir tous les champs");
     }
   };
 
@@ -61,13 +59,13 @@ const IMCScreen = () => {
   const handleReset = () => {
     setBmi(false);
     setSubmitted(false);
-    setName('');
-    setHeight('');
-    setWeight('');
+    setName("");
+    setHeight("");
+    setWeight("");
   };
 
   return (
-    <>
+    <ScrollView>
       <View>
         <Text style={styles.title(theme)}>IMC Calculator</Text>
       </View>
@@ -123,10 +121,8 @@ const IMCScreen = () => {
       {submitted && allForm ? (
         <CalculIMC name={name} height={height} weight={weight} />
       ) : null}
-    </>
+    </ScrollView>
   );
 };
 
 export default IMCScreen;
-
-

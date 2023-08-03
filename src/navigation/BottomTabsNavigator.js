@@ -8,7 +8,7 @@ import {
   SettingScreen,
 } from "@screens";
 import { useTheme } from "../theme/ThemeProvider";
-import ConvertiseurDevice from "../components/CovertiseurDevise/index.js";
+import ConvertiseurDevise from "../components/CovertiseurDevise/index.js";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -54,7 +54,7 @@ const BottomTabsNavigator = (props) => {
       />
       <Tab.Screen
         name="Conversion"
-        component={ConvertiseurDevice}
+        component={ConvertiseurDevise}
         options={{
           tabBarLabel: "convert",
           tabBarIcon: ({ color }) => (
