@@ -1,14 +1,8 @@
 import { Ionicons, MaterialCommunityIcons, Fontisto } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
-import {
-  HomeScreen,
-  NotificationScreen,
-  ProfileScreen,
-  SettingScreen,
-} from "@screens";
+import { HomeScreen, SettingScreen, ConvertScreen, IMCScreen } from "@screens";
 import { useTheme } from "../theme/ThemeProvider";
-import ConvertiseurDevise from "../components/CovertiseurDevise/index.js";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -40,7 +34,7 @@ const BottomTabsNavigator = (props) => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={IMCScreen}
         options={{
           tabBarLabel: "IMC",
           tabBarIcon: ({ color }) => (
@@ -54,7 +48,7 @@ const BottomTabsNavigator = (props) => {
       />
       <Tab.Screen
         name="Conversion"
-        component={ConvertiseurDevise}
+        component={ConvertScreen}
         options={{
           tabBarLabel: "convert",
           tabBarIcon: ({ color }) => (
