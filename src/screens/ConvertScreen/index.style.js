@@ -4,7 +4,7 @@ const styles = {
     marginLeft: 15,
   }),
 
-  centered: (theme) => ({
+  centered: () => ({
     flex: 1,
     justifyContent: "center",
   }),
@@ -26,7 +26,7 @@ const styles = {
   }),
 
   input: () => ({
-    margin: 8,
+    marginHorizontal: 16,
     height: 48,
     borderWidth: 1,
     padding: 12,
@@ -36,16 +36,17 @@ const styles = {
     backgroundColor: !disabled
       ? theme.colors.darkGrey
       : theme.colors.primaryDark,
-    marginHorizontal: "30%",
+    marginHorizontal: 16,
     height: 50,
     width: "35%",
     padding: 12,
     borderWidth: 1,
     borderRadius: 30,
+  
   }),
   submitButtonText: (theme, disabled) => ({
     textAlign: "center",
-    color: !disabled ? theme.colors.default : theme.colors.darkGrey,
+    color: disabled ? theme.colors.white : theme.colors.primary,
     fontWeight: "bold",
     fontSize: 18,
   }),

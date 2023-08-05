@@ -1,11 +1,11 @@
-import { getCurrencySymbol, getSymbolIntl } from "./currency.ts";
-import { API_CURRENCY_CONVERT } from "./urls.ts";
+import { getCurrencySymbol, getSymbolIntl } from "./currency";
+import { API_CURRENCY_BASE } from "./urls";
 import {
   formatUrlWithParams,
   formatUrlWithQueryParams,
   formatUrlWithParamsAndQueryParams,
   rest,
-} from "./formatUrl.ts";
+} from "./formatUrl";
 
 export {
   getCurrencySymbol,
@@ -14,5 +14,5 @@ export {
   formatUrlWithParamsAndQueryParams,
   formatUrlWithQueryParams,
   rest,
-  API_CURRENCY_CONVERT,
+  API_CURRENCY_BASE,
 };

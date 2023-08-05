@@ -1,33 +1,121 @@
-import { ScrollView, Text, View, TextInput, Pressable } from "react-native";
+import { ScrollView, Text, View, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import styles from "./index.style.js";
 import { useTheme } from "../../theme/ThemeProvider";
 
+import { API_CURRENCY_BASE, API_CURRENCY_CONVERT } from "../../utils/urls";
+import { formatUrlWithParams } from "../../utils/formatUrl";
+import useApi from "../../hooks/useApi";
+import { API_KEY_CURRENCY } from "@env";
+import { TouchableHighlight } from "react-native";
+import { mockedData } from "../../mockData.js";
+
 const ConvertScreen = () => {
-  const [euro, setEuro] = useState("");
-  const [dollard, setDollard] = useState("");
-  const [yoan, setYoan] = useState("");
-  const [bmi, setBmi] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const allForm = euro !== "" && dollard !== "" && yoan !== "";
+  const [eur, setEuro] = useState("");
+  const [dollar, setDollar] = useState("");
+  const [yuan, setYuan] = useState("");
+
+  const [data, setData] = useState({});
+
+  const [inputValue, setInputValue] = useState();
+  const [amount, setAmount] = useState();
+
+  const [currency, setCurrency] = useState("null");
+
+  const isInputValue = eur != "" || dollar != "" || yuan != "";
 
   const theme = useTheme();
 
-  useEffect(() => {
-    setBmi(euro !== "" && dollard !== "" && yoan !== "");
-  }, [euro, dollard, yoan]);
+  // const baseEurUrl = formatUrlWithParams(API_CURRENCY_BASE, {
+  //   currency: "EUR",
+  //   apikey: API_KEY_CURRENCY,
+  // });
 
-  /**
-   * A function that handles a change event and updates the state.
-   *
-   * @param {function} setState - The state setter function.
-   * @param {Event} event - The event object.
-   * @return {undefined} This function does not return a value.
-   */
-  const handleChange = (setState) => (event) => {
-    setState(event);
+  // const { data: dataFromEur } = useApi(baseEurUrl);
+  // const baseUsdUrl = formatUrlWithParams(API_CURRENCY_BASE, {
+  //   currency: "USD",
+  //   apikey: API_KEY_CURRENCY,
+  // });
+
+  // const { data: dataFromUsd } = useApi(baseUsdUrl);
+  // const baseCnyUrl = formatUrlWithParams(API_CURRENCY_BASE, {
+  //   currency: "CNY",
+  //   apikey: API_KEY_CURRENCY,
+  // });
+
+  // const { data: dataFromCny } = useApi(baseCnyUrl);
+
+  const convertToOtherCurrencies = () => {
+    switch (currency) {
+      case "EUR":
+        setEuro(amount);
+        setAmount(parseInt(amount));
+        setCurrency("EUR");
+        setYuan(parseInt(amount) * data?.rates?.CNY);
+        setDollar(parseInt(amount) * data?.rates?.USD);
+        break; //rates.AFN
+      case "USD":
+        setDollar(amount);
+        setAmount(parseInt(amount));
+        setYuan(parseInt(amount) * data?.rates?.CNY);
+        setEuro(parseInt(amount) * data?.rates?.EUR);
+        break;
+      case "CNY":
+        setYuan(amount);
+        setAmount(parseInt(amount));
+        setEuro(parseInt(amount) * data?.rates?.EUR);
+        setDollar(parseInt(amount) * data?.rates?.USD);
+        break;
+    }
   };
+
+  const handleChangeEuro = (text) => {
+    // convertToOtherCurrencies(text, "eur");
+    setEuro(text);
+    setInputValue("eur");
+    setCurrency("EUR");
+    setAmount(parseInt(text));
+  };
+
+  const handleChangeDollar = (text) => {
+    // convertToOtherCurrencies(text, "usd");
+    setDollar(text);
+    setInputValue("usd");
+    setCurrency("USD");
+    setAmount(parseInt(text));
+  };
+
+  const handleChangeYuan = (text) => {
+    //  convertToOtherCurrencies(text, "yuan");
+    setYuan(text);
+    setInputValue("yuan");
+    setCurrency("CNY");
+    setAmount(parseInt(text));
+  };
+
+  useEffect(() => {
+    console.log(mockedData[1]);
+    if (currency === "EUR") {
+      setData(mockedData[1]);
+    }
+    if (currency === "USD") {
+      setData(mockedData[2]);
+    }
+    if (currency === "CNY") {
+      setData(mockedData[0]);
+    }
+  }, [data, currency]);
+
+  // if (loading) {
+  //   return (
+  //     <ActivityIndicator
+  //       style={styles.centered()}
+  //       size={"large"}
+  //       color={theme.colors.primaryDark}
+  //     />
+  //   );
+  // }
 
   /**
    * Handles the form submission.
@@ -35,12 +123,7 @@ const ConvertScreen = () => {
    * @return {undefined} No return value.
    */
   const handleSubmit = () => {
-    if (euro !== "" || dollard !== "" || yoan !== "") {
-      setBmi(true);
-      setSubmitted(true);
-    } else {
-      alert("Veuillez remplir tous les champs");
-    }
+    convertToOtherCurrencies();
   };
 
   /**
@@ -49,11 +132,10 @@ const ConvertScreen = () => {
    * @return {undefined} No return value.
    */
   const handleReset = () => {
-    setBmi(false);
-    setSubmitted(false);
     setEuro("");
-    setDollard("");
-    setYoan("");
+    setDollar("");
+    setYuan("");
+    // setSubmitted(false);
   };
 
   return (
@@ -65,54 +147,118 @@ const ConvertScreen = () => {
         <Text style={styles.label(theme)}>Somme en $ </Text>
         <TextInput
           keyboardType="numeric"
-          value={euro}
+          value={`${dollar}`}
           style={styles.input(theme)}
           underlineColorAndroid={theme.colors.primary}
           placeholder="10 $"
           autoCapitalize="none"
-          onChangeText={handleChange(setEuro)}
+          onChangeText={handleChangeDollar}
         />
 
         <Text style={styles.label(theme)}>Somme en € </Text>
         <TextInput
           keyboardType="numeric"
-          value={dollard}
+          value={`${eur}`}
           style={styles.input(theme)}
           underlineColorAndroid={theme.colors.primary}
           placeholder="10 €"
           autoCapitalize="none"
-          onChangeText={handleChange(setDollard)}
+          onChangeText={handleChangeEuro}
         />
 
-        <Text style={styles.label(theme)}>Somme en £</Text>
+        <Text style={styles.label(theme)}>Somme en ¥</Text>
         <TextInput
           keyboardType="numeric"
-          value={yoan}
+          value={`${yuan}`}
           style={styles.input(theme)}
           underlineColorAndroid={theme.colors.primary}
-          placeholder="10 £"
+          placeholder="10 ¥"
           autoCapitalize="none"
-          onChangeText={handleChange(setYoan)}
+          onChangeText={handleChangeYuan}
         />
-        {!submitted ? (
-          <Pressable
-            style={styles.submitButton(theme, bmi)}
-            disabled={!bmi}
-            onPress={handleSubmit}
-          >
-            <Text style={styles.submitButtonText(theme)}>Convert</Text>
-          </Pressable>
-        ) : (
-          <Pressable
-            style={styles.submitButton(theme, bmi)}
-            onPress={handleReset}
-          >
-            <Text style={styles.submitButtonText(theme)}>Réinitialiser</Text>
-          </Pressable>
-        )}
+      </View>
+
+      <View style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}>
+        <TouchableHighlight
+          style={styles.submitButton(theme, isInputValue)}
+          disabled={!isInputValue}
+          onPress={handleSubmit}
+          title="Convert"
+        >
+          <Text style={styles.submitButtonText(theme, isInputValue)}>
+            Convert
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.submitButton(theme, isInputValue)}
+          disabled={!isInputValue}
+          onPress={handleReset}
+          title="Convert"
+        >
+          <Text style={styles.submitButtonText(theme, isInputValue)}>
+            reset
+          </Text>
+        </TouchableHighlight>
       </View>
     </ScrollView>
   );
 };
 
 export default ConvertScreen;
+
+//  const eurToUsdUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
+//     toCurrency: "EUR",
+//     fromCurrency: "USD",
+//     amount: amount,
+//     apikey: API_KEY_CURRENCY,
+//   });
+
+//   const eurToCnyUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
+//     toCurrency: "EUR",
+//     fromCurrency: "CNY",
+//     amount: amount,
+//     apikey: API_KEY_CURRENCY,
+//   });
+
+//   const { data: fromEurToUsdData } = useApi(eurToUsdUrl);
+//   const { data: fromEurToChyUrlData } = useApi(eurToCnyUrl);
+
+//   // const { data: fromEurToUsdData } = useApi(url);
+
+//   const usdToEurUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
+//     toCurrency: "USD",
+//     fromCurrency: "EUR",
+//     amount: amount,
+//     apikey: API_KEY_CURRENCY,
+//   });
+
+//   const usdToCnyUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
+//     toCurrency: "USD",
+//     fromCurrency: "CNY",
+//     amount: amount,
+//     apikey: API_KEY_CURRENCY,
+//   });
+//   // const { data: fromUsdToEuroData } = useApi(url2);
+//   const { data: fromUsdToEurData } = useApi(usdToEurUrl);
+//   const { data: fromUsdToCnyData } = useApi(usdToCnyUrl);
+
+//   const cnyToEurUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
+//     toCurrency: "CNY",
+//     fromCurrency: "EUR",
+//     amount: amount,
+//     apikey: API_KEY_CURRENCY,
+//   });
+
+//   const cnyToUsdUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
+//     toCurrency: "CNY",
+//     fromCurrency: "USD",
+//     amount: amount,
+//     apikey: API_KEY_CURRENCY,
+//   });
+
+//   const { data: fromCnyToEurData } = useApi(cnyToEurUrl);
+//   const { data: fromCnyToUsdData } = useApi(usdToCnyUrl);
+
+//   // const { data: fromCnyToEuroData } = useApi(url3);
+
+//   console.log("dollar, eur, yuan", dollar, eur, yuan);

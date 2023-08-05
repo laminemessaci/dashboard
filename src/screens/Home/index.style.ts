@@ -1,6 +1,5 @@
 const styles = {
   container: (theme) => ({
-    marginTop: 120,
     flex: 1,
     justifyContent: "center",
     marginLeft: 16,
