@@ -1,13 +1,9 @@
-import { ScrollView, Text, View, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
+import { ScrollView, Text, TextInput, View } from "react-native";
 
-import styles from "./index.style.js";
 import { useTheme } from "../../theme/ThemeProvider";
+import styles from "./index.style.js";
 
-import { API_CURRENCY_BASE, API_CURRENCY_CONVERT } from "../../utils/urls";
-import { formatUrlWithParams } from "../../utils/formatUrl";
-import useApi from "../../hooks/useApi";
-import { API_KEY_CURRENCY } from "@env";
 import { TouchableHighlight } from "react-native";
 import { mockedData } from "../../mockData.js";
 
@@ -27,48 +23,34 @@ const ConvertScreen = () => {
 
   const theme = useTheme();
 
-  // const baseEurUrl = formatUrlWithParams(API_CURRENCY_BASE, {
-  //   currency: "EUR",
-  //   apikey: API_KEY_CURRENCY,
-  // });
 
-  // const { data: dataFromEur } = useApi(baseEurUrl);
-  // const baseUsdUrl = formatUrlWithParams(API_CURRENCY_BASE, {
-  //   currency: "USD",
-  //   apikey: API_KEY_CURRENCY,
-  // });
 
-  // const { data: dataFromUsd } = useApi(baseUsdUrl);
-  // const baseCnyUrl = formatUrlWithParams(API_CURRENCY_BASE, {
-  //   currency: "CNY",
-  //   apikey: API_KEY_CURRENCY,
-  // });
+const convertToOtherCurrencies = () => {
+  const { rates } = data;
+  const parsedAmount = parseInt(amount);
 
-  // const { data: dataFromCny } = useApi(baseCnyUrl);
-
-  const convertToOtherCurrencies = () => {
-    switch (currency) {
-      case "EUR":
-        setEuro(amount);
-        setAmount(parseInt(amount));
-        setCurrency("EUR");
-        setYuan(parseInt(amount) * data?.rates?.CNY);
-        setDollar(parseInt(amount) * data?.rates?.USD);
-        break; //rates.AFN
-      case "USD":
-        setDollar(amount);
-        setAmount(parseInt(amount));
-        setYuan(parseInt(amount) * data?.rates?.CNY);
-        setEuro(parseInt(amount) * data?.rates?.EUR);
-        break;
-      case "CNY":
-        setYuan(amount);
-        setAmount(parseInt(amount));
-        setEuro(parseInt(amount) * data?.rates?.EUR);
-        setDollar(parseInt(amount) * data?.rates?.USD);
-        break;
-    }
-  };
+  switch (currency) {
+    case "EUR":
+      setEuro(parsedAmount);
+      setAmount(parsedAmount);
+      setCurrency("EUR");
+      setYuan(parsedAmount * rates.CNY);
+      setDollar(parsedAmount * rates.USD);
+      break;
+    case "USD":
+      setDollar(parsedAmount);
+      setAmount(parsedAmount);
+      setYuan(parsedAmount * rates.CNY);
+      setEuro(parsedAmount * rates.EUR);
+      break;
+    case "CNY":
+      setYuan(parsedAmount);
+      setAmount(parsedAmount);
+      setEuro(parsedAmount * rates.EUR);
+      setDollar(parsedAmount * rates.USD);
+      break;
+  }
+};
 
   const handleChangeEuro = (text) => {
     // convertToOtherCurrencies(text, "eur");
@@ -105,18 +87,9 @@ const ConvertScreen = () => {
     if (currency === "CNY") {
       setData(mockedData[0]);
     }
-  }, [data, currency]);
+  }, [data, currency, amount]);
 
-  // if (loading) {
-  //   return (
-  //     <ActivityIndicator
-  //       style={styles.centered()}
-  //       size={"large"}
-  //       color={theme.colors.primaryDark}
-  //     />
-  //   );
-  // }
-
+ 
   /**
    * Handles the form submission.
    *
@@ -135,7 +108,7 @@ const ConvertScreen = () => {
     setEuro("");
     setDollar("");
     setYuan("");
-    // setSubmitted(false);
+  
   };
 
   return (
@@ -205,60 +178,3 @@ const ConvertScreen = () => {
 };
 
 export default ConvertScreen;
-
-//  const eurToUsdUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
-//     toCurrency: "EUR",
-//     fromCurrency: "USD",
-//     amount: amount,
-//     apikey: API_KEY_CURRENCY,
-//   });
-
-//   const eurToCnyUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
-//     toCurrency: "EUR",
-//     fromCurrency: "CNY",
-//     amount: amount,
-//     apikey: API_KEY_CURRENCY,
-//   });
-
-//   const { data: fromEurToUsdData } = useApi(eurToUsdUrl);
-//   const { data: fromEurToChyUrlData } = useApi(eurToCnyUrl);
-
-//   // const { data: fromEurToUsdData } = useApi(url);
-
-//   const usdToEurUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
-//     toCurrency: "USD",
-//     fromCurrency: "EUR",
-//     amount: amount,
-//     apikey: API_KEY_CURRENCY,
-//   });
-
-//   const usdToCnyUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
-//     toCurrency: "USD",
-//     fromCurrency: "CNY",
-//     amount: amount,
-//     apikey: API_KEY_CURRENCY,
-//   });
-//   // const { data: fromUsdToEuroData } = useApi(url2);
-//   const { data: fromUsdToEurData } = useApi(usdToEurUrl);
-//   const { data: fromUsdToCnyData } = useApi(usdToCnyUrl);
-
-//   const cnyToEurUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
-//     toCurrency: "CNY",
-//     fromCurrency: "EUR",
-//     amount: amount,
-//     apikey: API_KEY_CURRENCY,
-//   });
-
-//   const cnyToUsdUrl = formatUrlWithParams(API_CURRENCY_CONVERT, {
-//     toCurrency: "CNY",
-//     fromCurrency: "USD",
-//     amount: amount,
-//     apikey: API_KEY_CURRENCY,
-//   });
-
-//   const { data: fromCnyToEurData } = useApi(cnyToEurUrl);
-//   const { data: fromCnyToUsdData } = useApi(usdToCnyUrl);
-
-//   // const { data: fromCnyToEuroData } = useApi(url3);
-
-//   console.log("dollar, eur, yuan", dollar, eur, yuan);
