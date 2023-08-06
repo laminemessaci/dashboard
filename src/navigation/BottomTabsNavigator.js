@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 
 import { HomeScreen, SettingScreen, ConvertScreen, IMCScreen } from "@screens";
 import { useTheme } from "../theme/ThemeProvider";
+import RegisterScreen from "../screens/RegistrationScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -57,12 +58,12 @@ const BottomTabsNavigator = (props) => {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingScreen}
+        name="Register"
+        component={RegisterScreen}
         options={{
-          tabBarLabel: "Settings",
+          tabBarLabel: "Register",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-settings" color={color} size={22} />
+            <Ionicons name="person-add-sharp" color={color} size={22} />
           ),
         }}
       />

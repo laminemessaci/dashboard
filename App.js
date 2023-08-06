@@ -4,7 +4,10 @@ import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AppStackNavigator from "./src/navigation/StackNavigator.js";
 
+
 export default function App() {
+
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
