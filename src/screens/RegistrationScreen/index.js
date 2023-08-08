@@ -33,7 +33,7 @@ import GoogleSVG from "../../assets/images/misc/googleSvg.js";
 import { useTheme } from "../../theme/ThemeProvider";
 import styles from "./index.style.js";
 
-const RegisterScreen = () => {
+const RegistrationScreen = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -282,7 +282,7 @@ const RegisterScreen = () => {
                 <DateTimePicker
                   testID="dateTimePicker"
                   value={values.birthDate}
-                  name='birthDate'
+                  name="birthDate"
                   mode="date"
                   display="spinner"
                   is24Hour={false}
@@ -366,4 +366,4 @@ const RegisterScreen = () => {
 
 
 
-export default RegisterScreen;
+export default RegistrationScreen;

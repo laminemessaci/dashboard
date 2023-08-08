@@ -2,6 +2,8 @@ import HomeScreen from "./Home";
 import SettingScreen from "./SettingScreen";
 import NotificationScreen from "./NotificationScreen";
 import IMCScreen from "./IMCScreen";
+import PostScreen from './PostScreen'
+import RegistrationScreen from './RegistrationScreen'
 
 import ConvertScreen from "./ConvertScreen";
 export {
@@ -9,5 +11,7 @@ export {
   SettingScreen,
   NotificationScreen,
   ConvertScreen,
-  IMCScreen
+  IMCScreen,
+  PostScreen, 
+  RegistrationScreen
 };

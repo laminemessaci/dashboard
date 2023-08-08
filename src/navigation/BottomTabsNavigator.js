@@ -1,9 +1,15 @@
 import { Ionicons, MaterialCommunityIcons, Fontisto } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
-import { HomeScreen, SettingScreen, ConvertScreen, IMCScreen } from "@screens";
+import {
+  HomeScreen,
+  SettingScreen,
+  ConvertScreen,
+  IMCScreen,
+  PostScreen,
+  RegistrationScreen,
+} from "@screens";
 import { useTheme } from "../theme/ThemeProvider";
-import RegisterScreen from "../screens/RegistrationScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -59,11 +65,21 @@ const BottomTabsNavigator = (props) => {
       />
       <Tab.Screen
         name="Register"
-        component={RegisterScreen}
+        component={RegistrationScreen}
         options={{
           tabBarLabel: "Register",
           tabBarIcon: ({ color }) => (
             <Ionicons name="person-add-sharp" color={color} size={22} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Post"
+        component={PostScreen}
+        options={{
+          tabBarLabel: "Post",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="post" color={color} size={22} />
           ),
         }}
       />

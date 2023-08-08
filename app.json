@@ -12,7 +12,7 @@
       "backgroundColor": "#ffffff"
     },
 
-    "jsEngine": "hermes",
+    "jsEngine": "android",
 
     "assetBundlePatterns": ["**/*"],
     "ios": {
