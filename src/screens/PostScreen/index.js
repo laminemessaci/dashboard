@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "../../theme/ThemeProvider";
+import { AntDesign } from "@expo/vector-icons";
 
 import {
   Button,
@@ -10,13 +11,18 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { dontLovePost, lovePost } from "../../redux/reducers/reducers.js";
+import {
+  dontLovePost,
+  lovePost,
+  deletePost,
+} from "../../redux/reducers/reducers.js";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const PostScreen = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
 
-  console.log("Posts: ", posts);
+  //console.log("Posts: ", posts);
   const handleLoveIt = (postId) => {
     console.log(postId);
     dispatch(lovePost(postId));
@@ -24,6 +30,10 @@ const PostScreen = () => {
 
   const handleDontLoveIt = (postId) => {
     dispatch(dontLovePost(postId));
+  };
+
+  const handleDeletePost = (postId) => {
+    dispatch(deletePost(postId));
   };
 
   const renderItem = ({ item }) => (
@@ -34,9 +44,39 @@ const PostScreen = () => {
       ]}
     >
       <Text style={styles.title}>{item.title}</Text>
-      <Text>{item.content}</Text>
-      <Button title="Love It" onPress={() => handleLoveIt(item.id)} />
-      <Button title="Don't Love It" onPress={() => handleDontLoveIt(item.id)} />
+      <Text style={styles.text}>{item.content}</Text>
+      {/* <Button title="Love It" /> */}
+      <View style={{ flexDirection: "row", margin: 12 }}>
+        <TouchableOpacity style={{ alignItems: "center" }}>
+          <AntDesign
+            style={{ marginRight: 12 }}
+            name="like2"
+            size={24}
+            color="blue"
+            onPress={() => handleLoveIt(item.id)}
+          />
+        </TouchableOpacity>
+        {/* <Button title="Don't Love It" onPress={() => handleDontLoveIt(item.id)} /> */}
+        <TouchableOpacity>
+          <AntDesign
+            style={{ marginRight: 12 }}
+            name="dislike2"
+            size={24}
+            color="orange"
+            onPress={() => handleDontLoveIt(item.id)}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <AntDesign
+            style={{ marginRight: 12 }}
+            name="delete"
+            size={24}
+            color="yellow"
+            onPress={() => handleDeletePost(item.id)}
+          />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 16, color: "cyan" }}>{item.loveIts}</Text>
+      </View>
     </View>
   );
 
@@ -52,18 +92,18 @@ const PostScreen = () => {
 };
 
 const styles = StyleSheet.create({
-
   title: {
     fontWeight: "bold",
+    color: "white",
+  },
+  text: {
+    color: "#ffd",
   },
   postContainer: {
-   paddingHorizontal:4,
-   paddingVertical:4,
-   marginHorizontal:4,
-   marginVertical:4
-
-
-   
+    marginHorizontal: 0,
+    marginVertical: 4,
+    borderRadius: 8,
+    padding: 8,
   },
 });
 
