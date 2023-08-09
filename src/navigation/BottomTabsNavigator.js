@@ -74,10 +74,10 @@ const BottomTabsNavigator = (props) => {
         }}
       />
       <Tab.Screen
-        name="Post"
+        name="Posts"
         component={PostScreen}
         options={{
-          tabBarLabel: "Post",
+          tabBarLabel: "Posts",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="post" color={color} size={22} />
           ),

@@ -4,6 +4,7 @@ import NotificationScreen from "./NotificationScreen";
 import IMCScreen from "./IMCScreen";
 import PostScreen from './PostScreen'
 import RegistrationScreen from './RegistrationScreen'
+import NewPostScreen from './NewPostScreen'
 
 import ConvertScreen from "./ConvertScreen";
 export {
@@ -12,6 +13,7 @@ export {
   NotificationScreen,
   ConvertScreen,
   IMCScreen,
-  PostScreen, 
-  RegistrationScreen
+  PostScreen,
+  RegistrationScreen,
+  NewPostScreen,
 };

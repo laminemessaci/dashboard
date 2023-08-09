@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "../../theme/ThemeProvider";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
 import {
   Button,
@@ -17,8 +17,10 @@ import {
   deletePost,
 } from "../../redux/reducers/reducers.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView } from "react-native";
 
-const PostScreen = () => {
+const PostScreen = ({ navigation, ...props }) => {
+  // console.log(navigation)
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
 
@@ -34,6 +36,11 @@ const PostScreen = () => {
 
   const handleDeletePost = (postId) => {
     dispatch(deletePost(postId));
+  };
+
+  const handleAddPost = () => {
+    // dispatch(addPost(item));
+    navigation.navigate("NewPost");
   };
 
   const renderItem = ({ item }) => (
@@ -75,23 +82,55 @@ const PostScreen = () => {
             onPress={() => handleDeletePost(item.id)}
           />
         </TouchableOpacity>
-        <Text style={{ fontSize: 16, color: "cyan" }}>{item.loveIts}</Text>
+        <View style={styles.badgeContainer}>
+          <Text style={{ fontSize: 16, color: "cyan", fontWeight: "bold" }}>
+            {item.loveIts}
+          </Text>
+        </View>
       </View>
     </View>
   );
 
   return (
     <View style={styles.postContainer}>
-      <FlatList
-        data={posts}
-        renderItem={renderItem}
-        keyExtractor={(item, id) => id?.toString()}
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          margin: 12,
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={styles.screenTitle}>Liste des Posts</Text>
+        <TouchableOpacity style={styles.addButton}>
+          <Entypo
+            name="add-to-list"
+            size={32}
+            color="blue"
+            onPress={() => handleAddPost()}
+          />
+        </TouchableOpacity>
+      </View>
+      <ScrollView style={{ marginBottom: 58 }}>
+        <FlatList
+          data={posts}
+          renderItem={renderItem}
+          keyExtractor={(item, id) => id}
+          contentContainerStyle={{
+            top: 8,
+            marginBottom: 24,
+          }}
+        />
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  screenTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
   title: {
     fontWeight: "bold",
     color: "white",
@@ -101,9 +140,24 @@ const styles = StyleSheet.create({
   },
   postContainer: {
     marginHorizontal: 0,
-    marginVertical: 4,
     borderRadius: 8,
+    marginVertical: 4,
     padding: 8,
+  },
+  addButton: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  badgeContainer: {
+    backgroundColor: "black", // Couleur de fond du badge
+    borderRadius: 10, // Forme arrondie
+    width: 24, // Largeur du badge
+    height: 24, // Hauteur du badge
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute", // Position absolue
+    top: -5, // Position par rapport au parent
+    right: -5, // Position par rapport au parent
   },
 });
 
