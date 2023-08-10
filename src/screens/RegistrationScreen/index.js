@@ -32,6 +32,7 @@ import TwitterSVG from "../../assets/images/misc/twitter.js";
 import GoogleSVG from "../../assets/images/misc/googleSvg.js";
 import { useTheme } from "../../theme/ThemeProvider";
 import styles from "./index.style.js";
+import { createNewUser, signInWithGoogle } from "../../firebase/index.js";
 
 const RegistrationScreen = () => {
   const [firstName, setFirstName] = useState("");
@@ -81,8 +82,18 @@ const RegistrationScreen = () => {
     setOpen();
   }, [validationSchema]);
   const handleRegistration = (values, actions) => {
-    // Logic to handle registration
-    console.log(actions);
+    console.log("values: ", values);
+    createNewUser({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+      birthDate: values.birthDate,
+      address: values.address,
+      country: values.country,
+      postalCode: values.postalCode,
+    });
+
     actions.resetForm();
     setBirthDate("Date de naissance");
     setDobLabel("Date de naissance");
@@ -141,7 +152,6 @@ const RegistrationScreen = () => {
             firstName: "",
             lastName: "",
             email: "",
-
             password: "",
             confirmPassword: "",
             birthDate: new Date(),
@@ -363,7 +373,5 @@ const RegistrationScreen = () => {
     </SafeAreaView>
   );
 };
-
-
 
 export default RegistrationScreen;

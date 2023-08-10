@@ -6,6 +6,7 @@ import {
   formatUrlWithParamsAndQueryParams,
   rest,
 } from "./formatUrl";
+import { timestamp, dateFormat } from "./formatter.js";
 
 export {
   getCurrencySymbol,
@@ -14,5 +15,7 @@ export {
   formatUrlWithParamsAndQueryParams,
   formatUrlWithQueryParams,
   rest,
+  timestamp,
+  dateFormat,
   API_CURRENCY_BASE,
 };
