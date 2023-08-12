@@ -85,18 +85,25 @@ export const createNewUser = async ({
     });
 };
 
+
 /**
- * Creates an IMC (Body Mass Index) document in the Firestore database.
+ * Creates a new IMC record in the database.
  *
- * @param {Object} data - The data object containing the weight and height.
- * @param {number} data.weight - The weight value in kilograms.
- * @param {number} data.height - The height value in meters.
- * @return {Promise<void>} A promise that resolves when the document is added successfully.
+ * @param {Object} data - The data object containing the IMC record properties.
+ * @param {string} data.id - The ID of the IMC record.
+ * @param {string} data.name - The name associated with the IMC record.
+ * @param {number} data.weight - The weight value of the IMC record.
+ * @param {number} data.height - The height value of the IMC record.
+ * @param {number} data.bmi - The BMI (Body Mass Index) value of the IMC record, rounded to 2 decimal places.
+ * @return {Promise<void>} A promise that resolves when the IMC record is successfully added to the database.
  */
-export const createIMC = async ({ weight, height }) => {
+export const createIMC = async ({ id, name, weight, height, bmi }) => {
   const imc = {
+    id,
+    name,
     weight,
     height,
+    bmi: bmi.toFixed(2),
     createdAt: timestamp,
     updatedAt: timestamp,
   };
@@ -111,16 +118,18 @@ export const createIMC = async ({ weight, height }) => {
 };
 
 /**
- * Creates a new device and adds it to the database.
+ * Creates a new devise with the given properties.
  *
- * @param {Object} deviceData - The data for the new device.
- * @param {number} deviceData.amount - The amount of the device.
- * @param {string} deviceData.currency - The currency of the device.
- * @param {any} deviceData.result - The result of the device.
- * @return {Promise<void>} A promise that resolves when the device is added successfully, or rejects with an error.
+ * @param {Object} params - The parameters for creating the devise.
+ * @param {string} params.id - The ID of the devise.
+ * @param {number} params.amount - The amount of the devise.
+ * @param {string} params.currency - The currency of the devise.
+ * @param {any} params.result - The result of the devise.
+ * @return {Promise<void>} A promise that resolves when the devise is created.
  */
-export const createDevise = async ({ amount, currency, result }) => {
+export const createDevise = async ({ id, amount, currency, result }) => {
   const device = {
+    id,
     amount,
     currency,
     result,
@@ -137,14 +146,14 @@ export const createDevise = async ({ amount, currency, result }) => {
 };
 
 /**
- * Creates a new post with the given parameters.
+ * Creates a new post with the given data.
  *
- * @param {Object} post - The post object containing the following properties:
- *   - id {string} - The unique identifier of the post.
- *   - title {string} - The title of the post.
- *   - content {string} - The content of the post.
- *   - loveIts {number} - The number of likes the post has.
- * @return {Promise<void>} - A promise that resolves when the post is successfully created.
+ * @param {Object} post - The post data.
+ * @param {string} post.id - The unique identifier of the post.
+ * @param {string} post.title - The title of the post.
+ * @param {string} post.content - The content of the post.
+ * @param {number} post.loveIts - The number of likes the post has.
+ * @return {Promise<void>} A promise that resolves when the post is successfully created.
  */
 export const createPost = async ({ id, title, content, loveIts }) => {
   const post = {

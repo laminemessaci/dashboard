@@ -10,6 +10,7 @@ import {
   Text,
   View,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,7 +18,7 @@ import {
   lovePost,
   deletePost,
 } from "../../redux/reducers/reducers.js";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { ScrollView } from "react-native";
 import {
   deletePostFromFirebase,

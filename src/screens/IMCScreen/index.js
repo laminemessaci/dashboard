@@ -4,6 +4,8 @@ import CalculIMC from "../../components/CalculIMC";
 import { useTheme } from "../../theme/ThemeProvider";
 
 import styles from "./index.style.js";
+import { createIMC } from "../../firebase/index.js";
+import { generateUniqueId } from "../../utils/generatePosts.js";
 
 /**
  * Generates the function comment for the given function body.
@@ -46,6 +48,13 @@ const IMCScreen = () => {
     if (name !== "" && height !== "" && weight !== "") {
       setBmi(true);
       setSubmitted(true);
+      createIMC({
+        id: generateUniqueId(),
+        height: height,
+        weight: weight,
+        name: name,
+        bmi: weight / (height / 100) ** 2,
+      });
     } else {
       alert("Veuillez remplir tous les champs");
     }

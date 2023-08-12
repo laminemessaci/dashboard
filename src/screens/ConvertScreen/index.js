@@ -25,6 +25,12 @@ const ConvertScreen = () => {
 
 
 
+/**
+ * Converts the amount to other currencies based on the selected currency.
+ *
+ * @param {string} currency - The selected currency.
+ * @param {number} amount - The amount to be converted.
+ */
 const convertToOtherCurrencies = () => {
   const { rates } = data;
   const parsedAmount = parseInt(amount);
