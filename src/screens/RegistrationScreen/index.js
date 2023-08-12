@@ -34,7 +34,7 @@ import { useTheme } from "../../theme/ThemeProvider";
 import styles from "./index.style.js";
 import { createNewUser, signInWithGoogle } from "../../firebase/index.js";
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({navigation}) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -82,7 +82,7 @@ const RegistrationScreen = () => {
     setOpen();
   }, [validationSchema]);
   const handleRegistration = (values, actions) => {
-    console.log("values: ", values);
+    // console.log("values: ", values);
     createNewUser({
       firstName: values.firstName,
       lastName: values.lastName,
@@ -97,6 +97,7 @@ const RegistrationScreen = () => {
     actions.resetForm();
     setBirthDate("Date de naissance");
     setDobLabel("Date de naissance");
+    navigation.navigate('Home')
   };
 
   const onChange = ({ type }, selectedDate) => {
@@ -296,8 +297,8 @@ const RegistrationScreen = () => {
                   mode="date"
                   display="spinner"
                   is24Hour={false}
-                  minimumDate={new Date(2000, 0, 1)}
-                  maximumDate={new Date(2050, 11, 31)}
+                   minimumDate={new Date(1950, 0, 1)}
+                  maximumDate={new Date(2010, 0, 1)}
                   locale="fr-FR"
                   timeZoneOffsetInMinutes={0}
                   onChange={onChange}

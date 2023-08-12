@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getRandomPost } from "../../utils/generatePosts.js";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const posts = [];
 for (let i = 0; i < 5; i++) {
   posts.push(getRandomPost());
@@ -88,7 +86,6 @@ const postsSlice = createSlice({
 
     addPost: (state, action) => {
       state.posts.push(action.payload);
-      // AsyncStorage.setItem("posts", JSON.stringify([...state]));
     },
   },
 

@@ -1,14 +1,16 @@
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
 import {
   getFirestore,
-  doc,
-  setDoc,
   collection,
   addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  query,
+  where,
+  updateDoc,
 } from "firebase/firestore";
-import firebase from "firebase/app";
 
 import { timestamp, dateFormat } from "../utils/formatter";
 import {
@@ -36,8 +38,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-
-
 
 /**
  * Creates a new user with the provided information.
@@ -85,5 +85,141 @@ export const createNewUser = async ({
     });
 };
 
+/**
+ * Creates an IMC (Body Mass Index) document in the Firestore database.
+ *
+ * @param {Object} data - The data object containing the weight and height.
+ * @param {number} data.weight - The weight value in kilograms.
+ * @param {number} data.height - The height value in meters.
+ * @return {Promise<void>} A promise that resolves when the document is added successfully.
+ */
+export const createIMC = async ({ weight, height }) => {
+  const imc = {
+    weight,
+    height,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  };
 
- 
+  await addDoc(collection(db, "imcs"), imc)
+    .then((docRef) => {
+      console.log("Document added with ID:", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document:", error);
+    });
+};
+
+/**
+ * Creates a new device and adds it to the database.
+ *
+ * @param {Object} deviceData - The data for the new device.
+ * @param {number} deviceData.amount - The amount of the device.
+ * @param {string} deviceData.currency - The currency of the device.
+ * @param {any} deviceData.result - The result of the device.
+ * @return {Promise<void>} A promise that resolves when the device is added successfully, or rejects with an error.
+ */
+export const createDevise = async ({ amount, currency, result }) => {
+  const device = {
+    amount,
+    currency,
+    result,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  };
+  await addDoc(collection(db, "devises"), device)
+    .then((docRef) => {
+      console.log("Document added with ID:", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document:", error);
+    });
+};
+
+/**
+ * Creates a new post with the given parameters.
+ *
+ * @param {Object} post - The post object containing the following properties:
+ *   - id {string} - The unique identifier of the post.
+ *   - title {string} - The title of the post.
+ *   - content {string} - The content of the post.
+ *   - loveIts {number} - The number of likes the post has.
+ * @return {Promise<void>} - A promise that resolves when the post is successfully created.
+ */
+export const createPost = async ({ id, title, content, loveIts }) => {
+  const post = {
+    id,
+    title,
+    content,
+    loveIts,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  };
+  await addDoc(collection(db, "posts"), post)
+    .then((docRef) => {
+      console.log("Document added with ID:", docRef);
+    })
+    .catch((error) => {
+      console.error("Error adding document:", error);
+    });
+};
+
+/**
+ * Deletes a post from Firebase based on the given postId.
+ *
+ * @param {string} postId - The ID of the post to be deleted.
+ * @return {Promise<void>} - A promise that resolves when the post is successfully deleted.
+ */
+export const deletePostFromFirebase = async (postId) => {
+  try {
+    const q = query(collection(db, "posts"), where("id", "==", postId));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const postRef = querySnapshot.docs[0].ref;
+      // console.log("Post Reference:", postRef);
+      await deleteDoc(doc(db, "posts", postRef.id));
+    } else {
+      console.log("No matching post found.");
+    }
+  } catch (error) {
+    console.error("Error getting post reference:", error);
+  }
+};
+
+/**
+ * Updates a post from Firebase.
+ *
+ * @param {string} postsId - The ID of the post to update.
+ * @param {number} loveIts - The new value for the "loveIts" field.
+ * @return {Promise<void>} - A promise that resolves once the update is complete.
+ */
+export const updatePostFromFirebase = async (postsId, loveIts) => {
+  try {
+    const q = query(collection(db, "posts"), where("id", "==", postsId));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const postDoc = querySnapshot.docs[0];
+      const postRef = querySnapshot.docs[0].ref;
+
+      await updateDoc(postRef, { loveIts: loveIts });
+      console.log("Post updated successfully.");
+    } else {
+      console.log("No matching post found.");
+    }
+  } catch (error) {
+    console.error("Error getting post reference:", error);
+  }
+};
+
+/**
+ * Retrieves posts from the firestore database.
+ *
+ * @return {Promise<Array>} An array of posts.
+ */
+export const getPosts = async () => {
+  try {
+    return await getDocs(collection(db, "posts"));
+  } catch (error) {
+    console.log("Error when getting posts from firebase:  ", error);
+  }
+};

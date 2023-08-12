@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "../../theme/ThemeProvider";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   Button,
@@ -18,24 +19,49 @@ import {
 } from "../../redux/reducers/reducers.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ScrollView } from "react-native";
+import {
+  deletePostFromFirebase,
+  getPosts,
+  updatePostFromFirebase,
+} from "../../firebase/index.js";
 
 const PostScreen = ({ navigation, ...props }) => {
-  // console.log(navigation)
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts);
+  const [posts, setPosts] = useState([]);
 
-  //console.log("Posts: ", posts);
-  const handleLoveIt = (postId) => {
-    console.log(postId);
-    dispatch(lovePost(postId));
+  const dispatch = useDispatch();
+  // const posts = useSelector((state) => state.posts);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const result = [];
+      const data = await getPosts();
+
+      await data.forEach((query) =>
+        result.push({ key: query.id, posts: query.data() })
+      );
+
+      const resultData = result.map((doc) => {
+        return doc.posts;
+      });
+      resultData.map((result) => {});
+
+      setPosts(resultData);
+    };
+    loadData();
+  }, [posts]);
+  const handleLoveIt = (postId, loveIts) => {
+    // dispatch(lovePost(postId));
+    updatePostFromFirebase(postId, loveIts);
   };
 
-  const handleDontLoveIt = (postId) => {
-    dispatch(dontLovePost(postId));
+  const handleDontLoveIt = (postId, loveIts) => {
+    //  dispatch(dontLovePost(postId));
+    updatePostFromFirebase(postId, loveIts);
   };
 
   const handleDeletePost = (postId) => {
-    dispatch(deletePost(postId));
+    // dispatch(deletePost(postId));
+    deletePostFromFirebase(postId);
   };
 
   const handleAddPost = () => {
@@ -47,11 +73,12 @@ const PostScreen = ({ navigation, ...props }) => {
     <View
       style={[
         styles.postContainer,
-        { backgroundColor: item.loveIts > 0 ? "green" : "red" },
+        { backgroundColor: item?.loveIts > 0 ? "green" : "red" },
       ]}
     >
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.text}>{item.content}</Text>
+
       {/* <Button title="Love It" /> */}
       <View style={{ flexDirection: "row", margin: 12 }}>
         <TouchableOpacity style={{ alignItems: "center" }}>
@@ -60,7 +87,9 @@ const PostScreen = ({ navigation, ...props }) => {
             name="like2"
             size={24}
             color="blue"
-            onPress={() => handleLoveIt(item.id)}
+            onPress={() =>
+              handleLoveIt(item.id, (item.loveIts = item.loveIts + 1))
+            }
           />
         </TouchableOpacity>
         {/* <Button title="Don't Love It" onPress={() => handleDontLoveIt(item.id)} /> */}
@@ -70,7 +99,9 @@ const PostScreen = ({ navigation, ...props }) => {
             name="dislike2"
             size={24}
             color="orange"
-            onPress={() => handleDontLoveIt(item.id)}
+            onPress={() =>
+              handleDontLoveIt(item.id, (item.loveIts = item.loveIts - 1))
+            }
           />
         </TouchableOpacity>
         <TouchableOpacity>
@@ -84,7 +115,7 @@ const PostScreen = ({ navigation, ...props }) => {
         </TouchableOpacity>
         <View style={styles.badgeContainer}>
           <Text style={{ fontSize: 16, color: "cyan", fontWeight: "bold" }}>
-            {item.loveIts}
+            {item?.loveIts}
           </Text>
         </View>
       </View>
@@ -110,17 +141,16 @@ const PostScreen = ({ navigation, ...props }) => {
           />
         </TouchableOpacity>
       </View>
-      <ScrollView style={{ marginBottom: 58 }}>
+      <View style={{ bottom: 24, top: 12 }}>
         <FlatList
           data={posts}
           renderItem={renderItem}
           keyExtractor={(item, id) => id}
           contentContainerStyle={{
-            top: 8,
-            marginBottom: 24,
+            marginBottom: 68,
           }}
         />
-      </ScrollView>
+      </View>
     </View>
   );
 };

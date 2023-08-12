@@ -1,12 +1,12 @@
-export const getRandomDate=(start, end) =>{
+export const getRandomDate = (start, end) => {
   return new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
   );
-}
+};
 
-function generateUniqueId() {
+export const generateUniqueId = () => {
   return Math.random().toString(36).substr(2, 9); // Generate a random alphanumeric id
-}
+};
 
 export const getRandomPost = () => {
   const titles = [

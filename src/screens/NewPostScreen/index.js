@@ -2,31 +2,36 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import CustomButton from "../../components/CustomButton/index.js";
 import { useTheme } from "../../theme/ThemeProvider";
-import { getRandomPost } from "../../utils/generatePosts.js";
+
 import { useDispatch } from "react-redux";
 import { addPost } from "../../redux/reducers/reducers.js";
+import { createPost } from "../../firebase/index.js";
+import { generateUniqueId } from "../../utils/generatePosts.js";
 
-const NewPostScreen = ({navigation, ...props}) => {
+const NewPostScreen = ({ navigation, ...props }) => {
   const theme = useTheme();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleAddPost = () => {
     if (title && content) {
       const newPost = {
-        id: getRandomPost(),
+        id: generateUniqueId(),
         title: title,
         content: content,
         loveIts: 0,
         created_at: new Date(),
       };
-       dispatch(addPost(newPost));
-      // onAddPost(newPost);
+      dispatch(addPost(newPost));
+
+      createPost(newPost);
       setTitle("");
       setContent("");
-       navigation.navigate("Posts");
+      navigation.navigate("Posts");
+    } else {
+      alert("Veuillez remplir tous les champs");
     }
   };
   return (
