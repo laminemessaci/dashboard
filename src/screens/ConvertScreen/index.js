@@ -6,6 +6,9 @@ import styles from "./index.style.js";
 
 import { TouchableHighlight } from "react-native";
 import { mockedData } from "../../mockData.js";
+import { createDevise } from "../../firebase/index.js";
+import { timestamp } from "../../utils/formatter";
+import { generateUniqueId } from "../../utils/generatePosts.js";
 
 const ConvertScreen = () => {
   const [eur, setEuro] = useState("");
@@ -23,40 +26,54 @@ const ConvertScreen = () => {
 
   const theme = useTheme();
 
+  /**
+   * Converts the amount to other currencies based on the selected currency.
+   *
+   * @param {string} currency - The selected currency.
+   * @param {number} amount - The amount to be converted.
+   */
+  const convertToOtherCurrencies = () => {
+    let result = {};
+    const { rates } = data;
+    const parsedAmount = parseInt(amount);
 
-
-/**
- * Converts the amount to other currencies based on the selected currency.
- *
- * @param {string} currency - The selected currency.
- * @param {number} amount - The amount to be converted.
- */
-const convertToOtherCurrencies = () => {
-  const { rates } = data;
-  const parsedAmount = parseInt(amount);
-
-  switch (currency) {
-    case "EUR":
-      setEuro(parsedAmount);
-      setAmount(parsedAmount);
-      setCurrency("EUR");
-      setYuan(parsedAmount * rates.CNY);
-      setDollar(parsedAmount * rates.USD);
-      break;
-    case "USD":
-      setDollar(parsedAmount);
-      setAmount(parsedAmount);
-      setYuan(parsedAmount * rates.CNY);
-      setEuro(parsedAmount * rates.EUR);
-      break;
-    case "CNY":
-      setYuan(parsedAmount);
-      setAmount(parsedAmount);
-      setEuro(parsedAmount * rates.EUR);
-      setDollar(parsedAmount * rates.USD);
-      break;
-  }
-};
+    switch (currency) {
+      case "EUR":
+        setEuro(parsedAmount);
+        setAmount(parsedAmount);
+        setCurrency("EUR");
+        setYuan(parsedAmount * rates.CNY);
+        setDollar(parsedAmount * rates.USD);
+        return (result = {
+          euro: parsedAmount,
+          dollar: parsedAmount * rates.USD,
+          yuan: parsedAmount * rates.CNY,
+        });
+        break;
+      case "USD":
+        setDollar(parsedAmount);
+        setAmount(parsedAmount);
+        setYuan(parsedAmount * rates.CNY);
+        setEuro(parsedAmount * rates.EUR);
+        return (result = {
+          euro: parsedAmount * rates.EUR,
+          dollar: parsedAmount,
+          yuan: parsedAmount * rates.CNY,
+        });
+        break;
+      case "CNY":
+        setYuan(parsedAmount);
+        setAmount(parsedAmount);
+        setEuro(parsedAmount * rates.EUR);
+        setDollar(parsedAmount * rates.USD);
+        return (result = {
+          euro: parsedAmount * rates.EUR,
+          dollar: parsedAmount,
+          yuan: parsedAmount,
+        });
+        break;
+    }
+  };
 
   const handleChangeEuro = (text) => {
     // convertToOtherCurrencies(text, "eur");
@@ -95,14 +112,23 @@ const convertToOtherCurrencies = () => {
     }
   }, [data, currency, amount]);
 
- 
   /**
    * Handles the form submission.
    *
    * @return {undefined} No return value.
    */
   const handleSubmit = () => {
-    convertToOtherCurrencies();
+    const { rates } = data;
+    const parsedAmount = parseInt(amount);
+    const result = convertToOtherCurrencies();
+    createDevise({
+      id: generateUniqueId(),
+      amount: amount,
+      currency: currency,
+      result,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    });
   };
 
   /**
@@ -114,7 +140,6 @@ const convertToOtherCurrencies = () => {
     setEuro("");
     setDollar("");
     setYuan("");
-  
   };
 
   return (
