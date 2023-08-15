@@ -5,6 +5,7 @@ import { NewPostScreen } from "@screens";
 import { RegistrationScreen } from "../screens/index.js";
 import LoginScreen from "../LoginScreen/index.js";
 import HistoryDevise from "../screens/HistoryDeviseScreen/index.js";
+import IMCHistory from "../screens/IMCHistory/index.js";
 
 const Stack = createStackNavigator();
 //NewPostScreen
@@ -63,6 +64,16 @@ export default function AppStackNavigator() {
       <Stack.Screen
         name="DeviseHistory"
         component={HistoryDevise}
+        headerShown={true}
+        options={{
+          headerLeft: ({ color }) => (
+            <Ionicons name="menu" color="black" size={26} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="IMCHistory"
+        component={IMCHistory}
         headerShown={true}
         options={{
           headerLeft: ({ color }) => (

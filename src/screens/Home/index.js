@@ -41,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
         <CustomButton
           label="IMC Hist"
           theme={theme}
-          onPress={() => onPress("HistoryDevise")}
+          onPress={() => onPress("IMCHistory")}
         />
         <CustomButton
           label="User Hist"

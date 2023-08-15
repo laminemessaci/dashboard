@@ -388,3 +388,11 @@ export const getDevises = async () => {
   }
 };
 
+export const getImcs = async () => {
+  try {
+    return await getDocs(collection(db, "imcs"));
+  } catch (error) {
+    console.log("Error when getting imcs from firebase:  ", error);
+  }
+};
+
