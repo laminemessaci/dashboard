@@ -4,8 +4,8 @@ import CalculIMC from "../../components/CalculIMC";
 import { useTheme } from "../../theme/ThemeProvider";
 
 import styles from "./index.style.js";
-import { createIMC } from "../../firebase/index.js";
 import { generateUniqueId } from "../../utils/generatePosts.js";
+import { createIMC } from "../../api";
 
 /**
  * Generates the function comment for the given function body.

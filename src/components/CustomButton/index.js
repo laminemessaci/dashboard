@@ -2,14 +2,16 @@ import { Text, TouchableOpacity } from "react-native";
 import React from "react";
 
 export default function CustomButton({ label, theme, onPress }) {
+
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
-        backgroundColor: theme.colors.secondaryDark,
-        padding: 20,
+        backgroundColor: theme.colors.primaryDark,
         borderRadius: 10,
+        padding:20,
         marginBottom: 30,
+        marginHorizontal: 8,
       }}
     >
       <Text

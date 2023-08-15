@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useTheme } from "../../theme/ThemeProvider";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,52 +18,59 @@ import {
   dontLovePost,
   lovePost,
   deletePost,
-} from "../../redux/reducers/reducers.js";
+} from "../../redux/reducers/postSlice.js";
 
 import { ScrollView } from "react-native";
 import {
   deletePostFromFirebase,
   getPosts,
   updatePostFromFirebase,
-} from "../../firebase/index.js";
+} from "../../api";
 
 const PostScreen = ({ navigation, ...props }) => {
   const [posts, setPosts] = useState([]);
 
+  const { navigate } = navigation;
+
   const dispatch = useDispatch();
   // const posts = useSelector((state) => state.posts);
 
+  const loadData = async () => {
+    // const result = [];
+    // const data = await getPosts();
+    // await data.forEach((query) =>
+    //   result.push({ key: query.id, posts: query.data() })
+    // );
+    // const resultData = result.map((doc) => {
+    //   return doc.posts;
+    // });
+    // resultData.map((result) => {});
+    // setPosts(resultData);
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      const result = [];
-      const data = await getPosts();
-
-      await data.forEach((query) =>
-        result.push({ key: query.id, posts: query.data() })
-      );
-
-      const resultData = result.map((doc) => {
-        return doc.posts;
-      });
-      resultData.map((result) => {});
-
-      setPosts(resultData);
-    };
     loadData();
-  }, [posts]);
+  }, [dispatch, navigate]);
+  useFocusEffect(() => {
+    loadData();
+  });
+
   const handleLoveIt = (postId, loveIts) => {
     // dispatch(lovePost(postId));
     updatePostFromFirebase(postId, loveIts);
+    loadData();
   };
 
   const handleDontLoveIt = (postId, loveIts) => {
     //  dispatch(dontLovePost(postId));
     updatePostFromFirebase(postId, loveIts);
+    loadData();
   };
 
   const handleDeletePost = (postId) => {
     // dispatch(deletePost(postId));
     deletePostFromFirebase(postId);
+    loadData();
   };
 
   const handleAddPost = () => {
@@ -150,6 +158,7 @@ const PostScreen = ({ navigation, ...props }) => {
           contentContainerStyle={{
             marginBottom: 68,
           }}
+          extraData={navigation}
         />
       </View>
     </View>

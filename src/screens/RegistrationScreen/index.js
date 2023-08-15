@@ -32,7 +32,8 @@ import TwitterSVG from "../../assets/images/misc/twitter.js";
 import GoogleSVG from "../../assets/images/misc/googleSvg.js";
 import { useTheme } from "../../theme/ThemeProvider";
 import styles from "./index.style.js";
-import { createNewUser, signInWithGoogle } from "../../firebase/index.js";
+import { createNewUser } from "../../api/index.js";
+
 
 const RegistrationScreen = ({navigation}) => {
   const [firstName, setFirstName] = useState("");

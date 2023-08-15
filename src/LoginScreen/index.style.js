@@ -1,10 +1,21 @@
 const styles = {
-  container: (theme) => ({
+  contentContainer: (theme) => ({
     flex: 1,
-    justifyContent: "center",
-    marginLeft: 16,
+    backgroundColor: theme.colors.primary,
+  }),
+  container: (theme) => ({
+    padding: 40,
+    alignItems: "center",
   }),
 
+  inputStyle: (theme) => ({
+    fontSize: 15,
+    color: theme.colors.white,
+  }),
+  inputContainerStyle: (theme) => ({
+    borderBottomWidth: 3,
+    borderBottomColor: theme.colors.lightGray,
+  }),
   centered: (theme) => ({
     flex: 1,
     justifyContent: "center",
@@ -17,9 +28,7 @@ const styles = {
   }),
 
   image: (theme) => ({
-    flex:1,
-    justifyContent: 'center',
-    alignSelf:'center',
+    width: "90%",
     height: 150,
     borderRadius: 20,
     objectFit: "contain",

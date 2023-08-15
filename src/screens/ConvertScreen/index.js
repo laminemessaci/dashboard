@@ -6,9 +6,9 @@ import styles from "./index.style.js";
 
 import { TouchableHighlight } from "react-native";
 import { mockedData } from "../../mockData.js";
-import { createDevise } from "../../firebase/index.js";
 import { timestamp } from "../../utils/formatter";
 import { generateUniqueId } from "../../utils/generatePosts.js";
+import { createDevise } from "../../api";
 
 const ConvertScreen = () => {
   const [eur, setEuro] = useState("");
@@ -45,7 +45,6 @@ const ConvertScreen = () => {
         setYuan(parsedAmount * rates.CNY);
         setDollar(parsedAmount * rates.USD);
         return (result = {
-          euro: parsedAmount,
           dollar: parsedAmount * rates.USD,
           yuan: parsedAmount * rates.CNY,
         });
@@ -57,7 +56,6 @@ const ConvertScreen = () => {
         setEuro(parsedAmount * rates.EUR);
         return (result = {
           euro: parsedAmount * rates.EUR,
-          dollar: parsedAmount,
           yuan: parsedAmount * rates.CNY,
         });
         break;
@@ -68,8 +66,7 @@ const ConvertScreen = () => {
         setDollar(parsedAmount * rates.USD);
         return (result = {
           euro: parsedAmount * rates.EUR,
-          dollar: parsedAmount,
-          yuan: parsedAmount,
+          dollar: parsedAmount * rates.USD,
         });
         break;
     }

@@ -15,18 +15,6 @@ const styles = {
     marginTop: 12,
     marginBottom: 12,
   }),
-
-  image: (theme) => ({
-    width: "90%",
-    height: 150,
-    borderRadius: 20,
-    objectFit: "contain",
-  }),
-
-  imageContainer: (theme) => ({
-    width: "100%",
-    marginBottom: 60,
-  }),
 };
 
 export default styles;

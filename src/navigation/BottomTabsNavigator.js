@@ -10,6 +10,7 @@ import {
   RegistrationScreen,
 } from "@screens";
 import { useTheme } from "../theme/ThemeProvider";
+import LoginScreen from "../LoginScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -63,7 +64,7 @@ const BottomTabsNavigator = (props) => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Register"
         component={RegistrationScreen}
         options={{
@@ -72,7 +73,7 @@ const BottomTabsNavigator = (props) => {
             <Ionicons name="person-add-sharp" color={color} size={22} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Posts"
         component={PostScreen}

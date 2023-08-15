@@ -97,3 +97,5 @@ const postsSlice = createSlice({
 export const { addPost, lovePost, dontLovePost, deletePost } =
   postsSlice.actions;
 export default postsSlice.reducer;
+
+

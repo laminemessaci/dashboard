@@ -4,9 +4,9 @@ import CustomButton from "../../components/CustomButton/index.js";
 import { useTheme } from "../../theme/ThemeProvider";
 
 import { useDispatch } from "react-redux";
-import { addPost } from "../../redux/reducers/reducers.js";
-import { createPost } from "../../firebase/index.js";
+import { addPost } from "../../redux/reducers/postSlice.js";
 import { generateUniqueId } from "../../utils/generatePosts.js";
+import { createPost } from "../../api";
 
 const NewPostScreen = ({ navigation, ...props }) => {
   const theme = useTheme();
